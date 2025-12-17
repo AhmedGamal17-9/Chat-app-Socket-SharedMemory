@@ -9,6 +9,7 @@ A single-executable Windows desktop application for chatting via LAN (Sockets) o
 - **Native Win32**: Built using pure Windows API (Unicode) for maximum performance and zero dependencies.
 - **Single Executable**: No external DLLs or dependencies (statically linked standard libs).
 
+
 ---
 
 ## 📝 Development Setup
