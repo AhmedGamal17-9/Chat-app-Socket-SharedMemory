@@ -1,4 +1,4 @@
-# Desktop Communication Suite
+# Chat-app-Socket-SharedMemory
 
 A single-executable Windows desktop application for chatting via LAN (Sockets) or Locally (Shared Memory).
 
