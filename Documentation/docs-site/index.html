@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat-app-Socket-SharedMemory - Documentation</title>
+    <meta
+      name="description"
+      content="A high-performance, single-executable Windows desktop application for secure messaging via LAN or Local Shared Memory."
+    />
+    <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg" />
+    <script src="assets/js/tailwind.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    </script>
+    <link href="assets/css/prism.css" rel="stylesheet" />
+    <style>
+      /* CustomScrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #475569;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      /* Typography overrides */
+      .prose pre {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+      }
+      .prose h2,
+      .prose h3 {
+        position: relative;
+        scroll-margin-top: 5rem;
+      }
+      .prose h2 {
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 0.5rem;
+      }
+      .dark .prose h2 {
+        border-color: #334155;
+      }
+
+      /* Anchor Links */
+      .anchor-link {
+        opacity: 0;
+        margin-left: 0.5rem;
+        color: #3b82f6;
+        text-decoration: none;
+        transition: opacity 0.2s;
+        position: absolute;
+        right: 100%;
+        margin-right: 0.5rem;
+      }
+      .prose h2:hover .anchor-link,
+      .prose h3:hover .anchor-link {
+        opacity: 1;
+      }
+
+      /* Mobile menu transition */
+      #mobile-menu {
+        transition: transform 0.3s ease-in-out;
+      }
+
+      /* Search highlight */
+      .search-highlight {
+        background-color: #fef08a;
+        color: black;
+        padding: 0 2px;
+        border-radius: 2px;
+      }
+      .dark .search-highlight {
+        background-color: #854d0e;
+        color: white;
+      }
+
+      /* Tabbed Code Blocks */
+      .tab-btn {
+        @apply px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-t-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-300 dark:hover:bg-gray-800;
+      }
+      .tab-btn.active {
+        @apply text-blue-600 bg-white border-b-2 border-blue-600 dark:bg-slate-800 dark:text-blue-500;
+      }
+
+      /* Back to Top */
+      #back-to-top {
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease-in-out;
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 50;
+        background-color: #2563eb; /* blue-600 */
+        color: white;
+        border-radius: 9999px; /* rounded-full */
+        padding: 0.75rem; /* p-3 */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+        cursor: pointer;
+        border: none;
+      }
+      #back-to-top:hover {
+        background-color: #1d4ed8; /* blue-700 */
+      }
+      #back-to-top:focus {
+        outline: 2px solid #3b82f6; /* ring-blue-500 */
+        outline-offset: 2px;
+      }
+      #back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-gray-100 transition-colors duration-200"
+  >
+    <!-- Header -->
+    <header
+      class="fixed w-full top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur border-b border-gray-200 dark:border-slate-800"
+    >
+      <div
+        class="px-4 h-16 flex items-center justify-between max-w-7xl mx-auto"
+      >
+        <div class="flex items-center gap-4">
+          <button
+            id="menu-btn"
+            class="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-slate-800 rounded-md"
+            aria-label="Toggle Menu"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+          <a
+            href="#"
+            class="flex items-center gap-2 font-bold text-xl tracking-tight"
+          >
+            <img src="assets/img/logo.svg" alt="Logo" class="w-8 h-8" />
+            <span class="hidden sm:inline">ChatSuite Docs</span>
+          </a>
+        </div>
+
+        <div class="flex items-center gap-4 flex-1 justify-end">
+          <div class="relative w-full max-w-md hidden sm:block">
+            <div
+              class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+            >
+              <svg
+                class="h-5 w-5 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="search-input"
+              class="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-slate-700 rounded-lg leading-5 bg-gray-50 dark:bg-slate-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              placeholder="Search documentation... (Ctrl+K)"
+            />
+            <div
+              id="search-results"
+              class="hidden absolute top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-lg shadow-xl max-h-96 overflow-y-auto z-50"
+            ></div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <!-- Font Size Controls -->
+            <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 mr-2 hidden sm:flex">
+                <button id="font-dec" class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded" title="Decrease Text Size">A-</button>
+                <button id="font-reset" class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded mx-1" title="Reset Text Size">Reset</button>
+                <button id="font-inc" class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded" title="Increase Text Size">A+</button>
+            </div>
+
+            <button
+              id="theme-toggle"
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+              aria-label="Toggle Theme"
+            >
+              <svg
+                id="moon-icon"
+                class="w-5 h-5 hidden dark:block"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                ></path>
+              </svg>
+              <svg
+                id="sun-icon"
+                class="w-5 h-5 block dark:hidden"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                ></path>
+              </svg>
+            </button>
+
+            <a
+              href="https://github.com/AhmedGamal17-9/Chat-app-Socket-SharedMemory.git"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+              aria-label="GitHub Repository"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </a>
+
+            <a
+              href="/Documentation/Documentation.txt"
+              id="download-btn"
+              class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              download="Project_Documentation.txt"
+              >Download</a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto flex pt-16 h-[calc(100vh)]">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-40 w-64 transform -translate-x-full lg:translate-x-0 lg:static lg:block bg-white dark:bg-slate-900 border-r border-gray-200 dark:border-slate-800 overflow-y-auto pt-16 lg:pt-0 transition-transform duration-200 ease-in-out"
+      >
+        <nav class="p-4 space-y-1" id="nav-links">
+          <a
+            href="#quick-start"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >1. Quick Start</a
+          >
+          <a
+            href="#prerequisites"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >2. Prerequisites</a
+          >
+          <a
+            href="#development-setup"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >3. Development Setup</a
+          >
+          <a
+            href="#build-instructions"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >4. Build Instructions</a
+          >
+          <a
+            href="#runtime-usage"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >5. Runtime Usage</a
+          >
+          <a
+            href="#use-cases"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >6. Use Cases</a
+          >
+          <a
+            href="#project-structure"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >7. Project Structure</a
+          >
+          <a
+            href="#architecture-overview"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >8. Architecture</a
+          >
+          <a
+            href="#configuration"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >9. Configuration</a
+          >
+          <a
+            href="#logging"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >10. Logging</a
+          >
+          <a
+            href="#testing"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >11. Testing</a
+          >
+          <a
+            href="#security"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >12. Security</a
+          >
+          <a
+            href="#release"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >13. Release</a
+          >
+          <a
+            href="#contributing"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >14. Contributing</a
+          >
+          <a
+            href="#troubleshooting"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >15. Troubleshooting</a
+          >
+          <a
+            href="#faq"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >16. FAQ</a
+          >
+          <a
+            href="#changelog"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >17. Changelog</a
+          >
+          <a
+            href="#credits"
+            class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
+            >18. Credits</a
+          >
+          
+          <div class="mt-8 px-3">
+              <button id="calc-trigger-btn" class="w-full flex items-center justify-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                  Buffer Calculator
+              </button>
+          </div>
+        </nav>
+      </aside>
+
+      <!-- Overlay -->
+      <div
+        id="mobile-overlay"
+        class="fixed inset-0 bg-black/50 z-30 lg:hidden hidden backdrop-blur-sm"
+      ></div>
+
+      <!-- Main Content -->
+      <main
+        class="flex-1 overflow-y-auto p-4 sm:p-8 lg:p-12 scroll-mt-16"
+        id="main-content"
+      >
+        <div class="prose prose-slate dark:prose-invert max-w-4xl mx-auto">
+          <h1 class="text-4xl font-extrabold mb-4">
+            Chat-app-Socket-SharedMemory
+          </h1>
+          <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
+            Professional Documentation for the high-performance Windows desktop
+            chat application.
+          </p>
+
+          <hr class="my-8 border-gray-200 dark:border-gray-800" />
+
+          <section id="quick-start" class="mb-16">
+            <h2>1. Quick Start</h2>
+            <p>To get up and running immediately:</p>
+            <ol>
+              <li>
+                <p><strong>CLONE</strong>: Retrieve the repository.</p>
+                <div class="group relative">
+                  <pre><code class="language-bash">git clone https://github.com/AhmedGamal17-9/Chat-app-Socket-SharedMemory.git</code></pre>
+                </div>
+              </li>
+              <li>
+                <strong>PREPARE</strong>: Ensure MSYS2 UCRT64 toolchain is
+                installed.
+              </li>
+              <li>
+                <p>
+                  <strong>BUILD</strong>: Run the build script in the project
+                  root.
+                </p>
+                <div class="group relative">
+                  <pre><code class="language-bash">build.bat</code></pre>
+                </div>
+              </li>
+              <li>
+                <p><strong>RUN</strong>: Execute the binary.</p>
+                <div class="group relative">
+                  <pre><code class="language-bash">ChatSuite.exe</code></pre>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <section id="prerequisites" class="mb-16">
+            <h2>2. Prerequisites</h2>
+            <p>
+              Ensure your environment meets the following specifications before
+              deployment or development.
+            </p>
+            <ul>
+              <li><strong>Windows 10 or 11</strong> (64-bit recommended)</li>
+              <li><strong>MSYS2 (Win64)</strong> with UCRT64 environment</li>
+            </ul>
+            <h3>Required Packages</h3>
+            <div class="group relative">
+              <pre><code class="language-bash">pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-make</code></pre>
+            </div>
+
+            <div
+              class="bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-500 p-4 my-4"
+            >
+              <div class="flex">
+                <div class="flex-shrink-0">
+                  <svg
+                    class="h-5 w-5 text-yellow-400"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+                <div class="ml-3">
+                  <p class="text-sm text-yellow-700 dark:text-yellow-200">
+                    <strong>CRITICAL REQUIREMENT:</strong> You MUST add a
+                    "Folder Exclusion" in Windows Defender for the project
+                    directory. The application performs raw socket and memory
+                    data operations which may trigger false positives.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="development-setup" class="mb-16">
+            <h2>3. Development Setup</h2>
+            <ol>
+              <li>
+                <strong>Install MSYS2</strong>: Download from
+                <a href="https://www.msys2.org/">msys2.org</a>.
+              </li>
+              <li>
+                <strong>Initialize Environment</strong>:
+                <div class="group relative">
+                  <pre><code class="language-bash">pacman -Syu</code></pre>
+                </div>
+              </li>
+              <li>
+                <strong>Install Compiler</strong>:
+                <div class="group relative">
+                  <pre><code class="language-bash">pacman -S mingw-w64-ucrt-x86_64-gcc</code></pre>
+                </div>
+              </li>
+              <li>
+                <strong>Navigate to Source</strong>:
+                <div class="group relative">
+                  <pre><code class="language-bash">cd /c/Projects/Chat-app-Socket-SharedMemory</code></pre>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <section id="build-instructions" class="mb-16">
+            <h2>4. Build Instructions</h2>
+
+            <!-- Tabbed Interface -->
+            <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+              <ul
+                class="flex flex-wrap -mb-px text-sm font-medium text-center"
+                id="build-tabs"
+                role="tablist"
+              >
+                <li class="mr-2" role="presentation">
+                  <button
+                    class="inline-block p-4 border-b-2 rounded-t-lg text-blue-600 border-blue-600 active dark:text-blue-500 dark:border-blue-500"
+                    id="cmd-tab"
+                    data-tabs-target="#cmd-content"
+                    type="button"
+                    role="tab"
+                    aria-controls="cmd-content"
+                    aria-selected="true"
+                  >
+                    Command Prompt (CMD)
+                  </button>
+                </li>
+                <li class="mr-2" role="presentation">
+                  <button
+                    class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    id="powershell-tab"
+                    data-tabs-target="#powershell-content"
+                    type="button"
+                    role="tab"
+                    aria-controls="powershell-content"
+                    aria-selected="false"
+                  >
+                    PowerShell
+                  </button>
+                </li>
+                <li class="mr-2" role="presentation">
+                  <button
+                    class="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    id="gitbash-tab"
+                    data-tabs-target="#gitbash-content"
+                    type="button"
+                    role="tab"
+                    aria-controls="gitbash-content"
+                    aria-selected="false"
+                  >
+                    Git Bash / MSYS2
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            <div id="build-tab-content">
+              <div
+                class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                id="cmd-content"
+                role="tabpanel"
+                aria-labelledby="cmd-tab"
+              >
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  Automated build using batch script:
+                </p>
+                <div class="group relative">
+                  <pre><code class="language-cmd">build.bat</code></pre>
+                </div>
+              </div>
+              <div
+                class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                id="powershell-content"
+                role="tabpanel"
+                aria-labelledby="powershell-tab"
+              >
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  Execute batch script from PowerShell:
+                </p>
+                <div class="group relative">
+                  <pre><code class="language-powershell">.\build.bat</code></pre>
+                </div>
+              </div>
+              <div
+                class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800"
+                id="gitbash-content"
+                role="tabpanel"
+                aria-labelledby="gitbash-tab"
+              >
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                  Manual compilation via G++:
+                </p>
+                <div class="group relative">
+                  <pre><code class="language-bash">g++ -std=c++17 -municode -mwindows src/*.cpp -o ChatSuite.exe -lws2_32 -lgdi32 -lcomctl32 -static-libgcc -static-libstdc++</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <h4
+                class="text-sm font-bold uppercase tracking-wider text-gray-500"
+              >
+                Flags Explained
+              </h4>
+              <ul class="text-sm">
+                <li><code>-mwindows</code>: GUI application (no console)</li>
+                <li><code>-municode</code>: Full Unicode support</li>
+                <li>
+                  <code>-static-lib...</code>: Portability (no DLL dependencies)
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section id="runtime-usage" class="mb-16">
+            <h2>5. Runtime Usage</h2>
+
+            <h3>Mode 1: Socket Mode (LAN)</h3>
+            <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg mb-4">
+              <p class="text-sm"><strong>Server Setup (Host)</strong></p>
+              <ol class="list-decimal list-inside text-sm mt-2">
+                <li>Run <code>ChatSuite.exe</code> -> Select "Socket Mode"</li>
+                <li>Role: "Server", Port: <code>8888</code></li>
+                <li>
+                  Click "Start" (Verify log: <code>Server listening...</code>)
+                </li>
+              </ol>
+            </div>
+            <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+              <p class="text-sm"><strong>Client Setup (Remote)</strong></p>
+              <ol class="list-decimal list-inside text-sm mt-2">
+                <li>Run <code>ChatSuite.exe</code> -> Select "Socket Mode"</li>
+                <li>
+                  Role: "Client", IP: <code>Server IP</code>, Port:
+                  <code>8888</code>
+                </li>
+                <li>Click "Connect"</li>
+              </ol>
+            </div>
+
+            <h3 class="mt-8">Mode 2: Shared Memory (Local IPC)</h3>
+            <p>
+              Ideal for secure, offline chat between two users on the SAME
+              machine.
+            </p>
+            <ol>
+              <li>
+                <strong>User A (Person A)</strong>: Select "Shared Memory Mode"
+                -> Click Start.
+              </li>
+              <li>
+                <strong>User B (Person B)</strong>: Select "Shared Memory Mode"
+                -> Click Start.
+              </li>
+              <li>Use the "Active Writer" toggle to switch input control.</li>
+            </ol>
+          </section>
+
+          <section id="use-cases" class="mb-16">
+            <h2>6. Use Cases</h2>
+            <div class="mb-8">
+              <br />
+              <img
+                src="assets/img/use-case-diagram.png"
+                alt="Use Case Diagram"
+                class="w-full rounded-lg shadow-lg border border-gray-200 dark:border-slate-700"
+              />
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div
+                class="border dark:border-slate-700 p-4 rounded-lg shadow-sm"
+              >
+                <h3 class="mt-0 text-lg">Small Office Team</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Team needing secure LAN comms without external cloud services.
+                </p>
+              </div>
+              <div
+                class="border dark:border-slate-700 p-4 rounded-lg shadow-sm"
+              >
+                <h3 class="mt-0 text-lg">Air-Gapped Ops</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Classified workstation with zero network footprint using
+                  Shared Memory.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <section id="project-structure" class="mb-16">
+            <h2>7. Project Structure</h2>
+            <div class="group relative">
+              <pre><code class="language-text">ROOT_DIR/
+├── build.bat                 # Windows Batch build script
+├── ChatSuite.exe             # Final production binary
+├── README.md                 # Markdown overview
+├── Documentation/
+│   └── Documentation.txt     # Reference file
+└── src/
+    ├── main.cpp              # Entry point
+    ├── Gui.h / .cpp          # Win32 API rendering
+    ├── Network.h / .cpp      # Winsock2 wrapper
+    ├── SharedMemory.h / .cpp # IPC implementation
+    └── Logger.h              # Logging singleton</code></pre>
+            </div>
+          </section>
+
+          <section id="architecture-overview" class="mb-16">
+            <h2>8. Architecture</h2>
+            <!-- New Professional Architecture Diagram -->
+            <div class="mb-8">
+              <img
+                src="assets/img/architecture.png"
+                alt="Architecture Diagram"
+                class="w-full rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 hover:scale-[1.01] transition-transform duration-300"
+              />
+            </div>
+
+          </section>
+
+          <section id="configuration" class="mb-16">
+            <h2>9. Configuration</h2>
+            <p>Current version is GUI-first. CLI args are not parsed.</p>
+            <p>
+              <strong>Planned (v1.1)</strong>: <code>config.ini</code> support.
+            </p>
+            <div class="group relative">
+              <pre><code class="language-ini">[Network]
+DefaultPort=8888
+AutoConnect=false</code></pre>
+            </div>
+          </section>
+
+          <section id="logging" class="mb-16">
+            <h2>10. Logging & Debugging</h2>
+            <p>Logs are ephemeral/in-memory and shown in the bottom pane.</p>
+            <div class="group relative">
+              <pre><code class="language-text">[14:20:00] [System] Application initialized.
+[14:20:05] [Network] Socket created successfully.
+[14:20:12] [Error] Connection Refused.</code></pre>
+            </div>
+          </section>
+
+          <section id="testing" class="mb-16">
+            <h2>11. Testing</h2>
+            <h3>Test A: Loopback Socket</h3>
+            <p>
+              Launch Server and Client both on <code>127.0.0.1</code> to test
+              TCP stack.
+            </p>
+
+            <h3>Test B: Concurrency Stress</h3>
+            <p>
+              Open two shared memory instances. Spam send on one while typing on
+              the other to verify mutex/semaphore locking.
+            </p>
+          </section>
+
+          <section id="security" class="mb-16">
+            <h2>12. Security & Antivirus</h2>
+            <div
+              class="bg-red-50 dark:bg-red-900/20 border-l-4 border-red-500 p-4"
+            >
+              <p class="font-bold text-red-700 dark:text-red-300">IMPORTANT:</p>
+              <p class="text-sm">
+                False positives may occur with Heuristic engines
+                (Generic.Malware). Add an exclusion for the build folder.
+              </p>
+            </div>
+            <p class="mt-4">
+              <strong>Network Encryption:</strong> Current version is PLAINTEXT.
+              Do not send PII over public networks.
+            </p>
+          </section>
+
+          <section id="release" class="mb-16">
+            <h2>13. Release & Distribution</h2>
+            <ol>
+              <li>
+                <strong>Static Linking</strong>: Mandatory
+                <code>-static-libgcc -static-libstdc++</code>.
+              </li>
+              <li>
+                <strong>Compression</strong>: Zip the <code>.exe</code> (~2MB).
+              </li>
+              <li>
+                <strong>Signing</strong>: Recommended for avoiding "Unknown
+                Publisher".
+              </li>
+            </ol>
+          </section>
+
+          <section id="contributing" class="mb-16">
+            <h2>14. Contribution Guide</h2>
+            <p>
+              <strong>Branches:</strong> <code>main</code> (stable),
+              <code>dev</code>, <code>feat/name</code>.
+            </p>
+            <p>
+              <strong>Commits:</strong> Semantic styles (<code>feat</code>,
+              <code>fix</code>, <code>docs</code>, <code>style</code>,
+              <code>refactor</code>).
+            </p>
+          </section>
+
+          <section id="troubleshooting" class="mb-16">
+            <h2>15. Troubleshooting</h2>
+            <table
+              class="min-w-full divide-y divide-gray-200 dark:divide-gray-700"
+            >
+              <thead class="bg-gray-50 dark:bg-slate-800">
+                <tr>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Issue
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Cause
+                  </th>
+                  <th
+                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                  >
+                    Solution
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                class="bg-white dark:bg-slate-900 divide-y divide-gray-200 dark:divide-gray-700"
+              >
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    g++ not found
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Path missing
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Run in UCRT64 shell
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Connection Failed
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Firewall
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Allow ChatSuite.exe
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    Access Denied
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Zombie Process
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    Kill all instances
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+
+          <section id="faq" class="mb-16">
+            <h2>16. FAQ</h2>
+            <details class="mb-4 group">
+              <summary
+                class="font-bold cursor-pointer list-none flex items-center justify-between bg-gray-50 dark:bg-slate-800 p-4 rounded-lg"
+              >
+                Is internet chat supported without VPN?
+                <span class="transition group-open:rotate-180">
+                  <svg
+                    fill="none"
+                    height="24"
+                    shape-rendering="geometricPrecision"
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    viewBox="0 0 24 24"
+                    width="24"
+                  >
+                    <path d="M6 9l6 6 6-6"></path>
+                  </svg>
+                </span>
+              </summary>
+              <p class="text-gray-600 dark:text-gray-400 mt-4 px-4">
+                Generally no. Socket mode requires direct line of sight (LAN or
+                Port Forwarding).
+              </p>
+            </details>
+            <details class="mb-4 group">
+              <summary
+                class="font-bold cursor-pointer list-none flex items-center justify-between bg-gray-50 dark:bg-slate-800 p-4 rounded-lg"
+              >
+                Why is the file size ~2MB?
+              </summary>
+              <p class="text-gray-600 dark:text-gray-400 mt-4 px-4">
+                Static linking of standard libraries causes this, but ensures
+                portability without installing redistributables.
+              </p>
+            </details>
+          </section>
+
+          <section id="changelog" class="mb-16">
+            <h2>17. Changelog</h2>
+            <ul class="list-disc pl-5">
+              <li>
+                <strong>v1.0.0</strong> - Initial Release. Dual Mode
+                (Socket/IPC), Native Win32 GUI.
+              </li>
+            </ul>
+          </section>
+
+          <section id="credits" class="mb-16">
+            <h2>18. Credits</h2>
+            <p>The entire project was created by:</p>
+            <ul class="list-disc pl-5 mt-4 text-lg">
+              <li>Ahmed Gamal Moawad El-Bardisi</li>
+              <li>Mohannad Khaled</li>
+              <li>Omar Khaled</li>
+              <li>Fathi Ahmed</li>
+              <li>Mohab Waleed</li>
+            </ul>
+          </section>
+
+          <footer
+            class="mt-12 py-6 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500"
+          >
+            <p>
+              &copy; 2024 Desktop Communication Suite Contributors. MIT License.
+            </p>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-8 right-8 p-3 bg-blue-600 text-white rounded-full shadow-lg hover:bg-blue-700 transition-colors z-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      aria-label="Back to Top"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        ></path>
+      </svg>
+    </button>
+
+    <!-- Calculator Modal -->
+    <div id="calc-modal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm"></div>
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-gray-200 dark:border-slate-700">
+                    <div class="bg-white dark:bg-slate-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                         <div class="sm:flex sm:items-start">
+                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 sm:mx-0 sm:h-10 sm:w-10">
+                                <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
+                                <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white" id="modal-title">Smart Buffer Calculator</h3>
+                                
+                                <!-- Instructions -->
+                                <div class="mt-2 p-3 bg-blue-50 dark:bg-slate-700/50 rounded-lg text-xs text-blue-800 dark:text-blue-200 border border-blue-100 dark:border-slate-600 text-left">
+                                    <p class="font-bold mb-1">Byte Calculation Rules:</p>
+                                    <ul class="list-disc pl-4 space-y-1">
+                                        <li><strong>English/Symbols:</strong> 1 byte</li>
+                                        <li><strong>Arabic:</strong> 2 bytes</li>
+                                        <li><strong>Numbers:</strong> Depends on selection below</li>
+                                    </ul>
+                                </div>
+
+                                <div class="mt-4 space-y-4">
+                                    <div>
+                                        <label for="calc-text-input" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Input Your Text</label>
+                                        <div class="mt-1">
+                                            <textarea name="calc-text-input" id="calc-text-input" rows="4" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:text-white px-3 resize-y" placeholder="Type mixed content here..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="calc-type" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Number Data Type</label>
+                                        <select id="calc-type" name="calc-type" class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:text-white">
+                                            <option value="1">char / uint8_t (Num = 1 byte)</option>
+                                            <option value="2">wchar_t / short (Num = 2 bytes)</option>
+                                            <option value="4">int / float (Num = 4 bytes)</option>
+                                            <option value="8">double / int64 (Num = 8 bytes)</option>
+                                        </select>
+                                    </div>
+                                    <div class="bg-gray-50 dark:bg-slate-900/50 rounded-lg p-4 mt-4 text-center border border-gray-100 dark:border-slate-700">
+                                        <p class="text-sm text-gray-500 dark:text-gray-400">Total Required Buffer:</p>
+                                        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-1" id="calc-result">0 bytes</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button type="button" id="calc-close-btn" class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-slate-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-500 hover:bg-gray-50 dark:hover:bg-slate-500 sm:mt-0 sm:w-auto">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <!-- Local Offline Scripts -->
+    <script src="assets/js/prism.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-batch.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-powershell.min.js"></script>
+    <!-- Added Powershell support -->
+    <script src="assets/js/main.js"></script>
+  </body>
+</html>

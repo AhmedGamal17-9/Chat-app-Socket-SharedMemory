@@ -20,7 +20,7 @@ Clone the project to your local machine:
 
 ```bash
 git clone <repository-url>
-cd DesktopCommSuite
+cd Chat-app-Socket-SharedMemory
 ```
 
 ### 2. Antivirus Configuration
@@ -63,7 +63,7 @@ cd DesktopCommSuite
 ## 📂 Project Structure
 
 ```text
-DesktopCommSuite/
+Chat-app-Socket-SharedMemory/
 ├── src/
 │   ├── Gui.cpp / .h          # User Interface logic (Win32)
 │   ├── Network.cpp / .h      # Winsock2 TCP implementation
