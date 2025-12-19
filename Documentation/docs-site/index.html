@@ -9,10 +9,9 @@
       content="A high-performance, single-executable Windows desktop application for secure messaging via LAN or Local Shared Memory."
     />
     <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg" />
-    <script src="assets/js/tailwind.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-    </script>
+    <script src="assets/js/tailwind.js"></script>
+    <script></script>
     <link href="assets/css/prism.css" rel="stylesheet" />
     <style>
       /* CustomScrollbar */
@@ -106,7 +105,8 @@
         color: white;
         border-radius: 9999px; /* rounded-full */
         padding: 0.75rem; /* p-3 */
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+          0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
         cursor: pointer;
         border: none;
       }
@@ -195,10 +195,30 @@
 
           <div class="flex items-center gap-2">
             <!-- Font Size Controls -->
-            <div class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 mr-2 hidden sm:flex">
-                <button id="font-dec" class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded" title="Decrease Text Size">A-</button>
-                <button id="font-reset" class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded mx-1" title="Reset Text Size">Reset</button>
-                <button id="font-inc" class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded" title="Increase Text Size">A+</button>
+            <div
+              class="flex items-center bg-gray-100 dark:bg-slate-800 rounded-lg p-1 mr-2 hidden sm:flex"
+            >
+              <button
+                id="font-dec"
+                class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded"
+                title="Decrease Text Size"
+              >
+                A-
+              </button>
+              <button
+                id="font-reset"
+                class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded mx-1"
+                title="Reset Text Size"
+              >
+                Reset
+              </button>
+              <button
+                id="font-inc"
+                class="px-2 py-1 text-xs font-bold text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-slate-700 rounded"
+                title="Increase Text Size"
+              >
+                A+
+              </button>
             </div>
 
             <button
@@ -366,12 +386,27 @@
             class="block px-3 py-2 rounded-md text-sm font-medium hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
             >18. Credits</a
           >
-          
+
           <div class="mt-8 px-3">
-              <button id="calc-trigger-btn" class="w-full flex items-center justify-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                  Buffer Calculator
-              </button>
+            <button
+              id="calc-trigger-btn"
+              class="w-full flex items-center justify-center gap-2 px-4 py-2 border border-blue-600 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-slate-800 transition-colors text-sm font-medium"
+            >
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                ></path>
+              </svg>
+              Buffer Calculator
+            </button>
           </div>
         </nav>
       </aside>
@@ -715,7 +750,6 @@
                 class="w-full rounded-lg shadow-lg border border-gray-200 dark:border-slate-700 hover:scale-[1.01] transition-transform duration-300"
               />
             </div>
-
           </section>
 
           <section id="configuration" class="mb-16">
@@ -963,61 +997,138 @@ AutoConnect=false</code></pre>
     </button>
 
     <!-- Calculator Modal -->
-    <div id="calc-modal" class="fixed inset-0 z-[60] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm"></div>
-        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-                <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-gray-200 dark:border-slate-700">
-                    <div class="bg-white dark:bg-slate-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                         <div class="sm:flex sm:items-start">
-                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 sm:mx-0 sm:h-10 sm:w-10">
-                                <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                </svg>
-                            </div>
-                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
-                                <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white" id="modal-title">Smart Buffer Calculator</h3>
-                                
-                                <!-- Instructions -->
-                                <div class="mt-2 p-3 bg-blue-50 dark:bg-slate-700/50 rounded-lg text-xs text-blue-800 dark:text-blue-200 border border-blue-100 dark:border-slate-600 text-left">
-                                    <p class="font-bold mb-1">Byte Calculation Rules:</p>
-                                    <ul class="list-disc pl-4 space-y-1">
-                                        <li><strong>English/Symbols:</strong> 1 byte</li>
-                                        <li><strong>Arabic:</strong> 2 bytes</li>
-                                        <li><strong>Numbers:</strong> Depends on selection below</li>
-                                    </ul>
-                                </div>
-
-                                <div class="mt-4 space-y-4">
-                                    <div>
-                                        <label for="calc-text-input" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Input Your Text</label>
-                                        <div class="mt-1">
-                                            <textarea name="calc-text-input" id="calc-text-input" rows="4" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:text-white px-3 resize-y" placeholder="Type mixed content here..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="calc-type" class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300">Number Data Type</label>
-                                        <select id="calc-type" name="calc-type" class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:text-white">
-                                            <option value="1">char / uint8_t (Num = 1 byte)</option>
-                                            <option value="2">wchar_t / short (Num = 2 bytes)</option>
-                                            <option value="4">int / float (Num = 4 bytes)</option>
-                                            <option value="8">double / int64 (Num = 8 bytes)</option>
-                                        </select>
-                                    </div>
-                                    <div class="bg-gray-50 dark:bg-slate-900/50 rounded-lg p-4 mt-4 text-center border border-gray-100 dark:border-slate-700">
-                                        <p class="text-sm text-gray-500 dark:text-gray-400">Total Required Buffer:</p>
-                                        <p class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-1" id="calc-result">0 bytes</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-gray-50 dark:bg-slate-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                        <button type="button" id="calc-close-btn" class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-slate-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-500 hover:bg-gray-50 dark:hover:bg-slate-500 sm:mt-0 sm:w-auto">Close</button>
-                    </div>
+    <div
+      id="calc-modal"
+      class="fixed inset-0 z-[60] hidden"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm"
+      ></div>
+      <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+        <div
+          class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+        >
+          <div
+            class="relative transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-gray-200 dark:border-slate-700"
+          >
+            <div
+              class="bg-white dark:bg-slate-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4"
+            >
+              <div class="sm:flex sm:items-start">
+                <div
+                  class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 sm:mx-0 sm:h-10 sm:w-10"
+                >
+                  <svg
+                    class="h-6 w-6 text-blue-600 dark:text-blue-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+                    />
+                  </svg>
                 </div>
+                <div
+                  class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full"
+                >
+                  <h3
+                    class="text-base font-semibold leading-6 text-gray-900 dark:text-white"
+                    id="modal-title"
+                  >
+                    Smart Buffer Calculator
+                  </h3>
+
+                  <!-- Instructions -->
+                  <div
+                    class="mt-2 p-3 bg-blue-50 dark:bg-slate-700/50 rounded-lg text-xs text-blue-800 dark:text-blue-200 border border-blue-100 dark:border-slate-600 text-left"
+                  >
+                    <p class="font-bold mb-1">Byte Calculation Rules:</p>
+                    <ul class="list-disc pl-4 space-y-1">
+                      <li><strong>English/Symbols:</strong> 1 byte</li>
+                      <li><strong>Arabic:</strong> 2 bytes</li>
+                      <li>
+                        <strong>Numbers:</strong> Depends on selection below
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="mt-4 space-y-4">
+                    <div>
+                      <label
+                        for="calc-text-input"
+                        class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300"
+                        >Input Your Text</label
+                      >
+                      <div class="mt-1">
+                        <textarea
+                          name="calc-text-input"
+                          id="calc-text-input"
+                          rows="4"
+                          class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:text-white px-3 resize-y"
+                          placeholder="Type mixed content here..."
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        for="calc-type"
+                        class="block text-sm font-medium leading-6 text-gray-900 dark:text-gray-300"
+                        >Number Data Type</label
+                      >
+                      <select
+                        id="calc-type"
+                        name="calc-type"
+                        class="mt-1 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-blue-600 sm:text-sm sm:leading-6 dark:bg-slate-700 dark:ring-slate-600 dark:text-white"
+                      >
+                        <option value="1">char / uint8_t (Num = 1 byte)</option>
+                        <option value="2">
+                          wchar_t / short (Num = 2 bytes)
+                        </option>
+                        <option value="4">int / float (Num = 4 bytes)</option>
+                        <option value="8">
+                          double / int64 (Num = 8 bytes)
+                        </option>
+                      </select>
+                    </div>
+                    <div
+                      class="bg-gray-50 dark:bg-slate-900/50 rounded-lg p-4 mt-4 text-center border border-gray-100 dark:border-slate-700"
+                    >
+                      <p class="text-sm text-gray-500 dark:text-gray-400">
+                        Total Required Buffer:
+                      </p>
+                      <p
+                        class="text-3xl font-bold text-blue-600 dark:text-blue-400 mt-1"
+                        id="calc-result"
+                      >
+                        0 bytes
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+            <div
+              class="bg-gray-50 dark:bg-slate-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6"
+            >
+              <button
+                type="button"
+                id="calc-close-btn"
+                class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-slate-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-slate-500 hover:bg-gray-50 dark:hover:bg-slate-500 sm:mt-0 sm:w-auto"
+              >
+                Close
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <!-- Scripts -->
